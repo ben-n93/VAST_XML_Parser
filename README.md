@@ -34,6 +34,9 @@ Execute script:
 ```python
 $ python3 vast_xml_parser.py
 ```
+## Future
+
+This is still a work in progress. A VAST tag can return different responses/MediaFiles and, other than examining the MediaFiles themselves, the only way to know is to look at the Creative element ID attribute (if present) and I plan on capturing/presenting this Creative ID in a future iteration of the application.
 
 ## License
 
