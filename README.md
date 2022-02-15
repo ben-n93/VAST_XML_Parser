@@ -6,6 +6,10 @@ A Video Ad Serving Template (VAST) 2.0/3.0 XML parser that extracts MediaFile me
 
 *VAST is a Video Ad Serving Template for structuring ad tags that serve ads to video players. Using an XML schema, VAST transfers important metadata about an ad from the ad server to a video player.* Read more [here](https://www.iab.com/guidelines/vast/).
 
+## Inspiration
+
+Examining a raw VAST tag response is timely, particlarly when wanting to test the creative/media files, so I created this application to make it quicker and easier to read MediaFile metadata and to copy the creative files' URLs.
+
 ## How it works
 
 Parses the VAST XML tree for the **MediaFile** element and populates the application table with both the **MediaFile** content/file and attributes/values.
