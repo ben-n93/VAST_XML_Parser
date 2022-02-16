@@ -1,8 +1,8 @@
 # VAST XML Parser
 
-A Video Ad Serving Template (VAST) 2.0/3.0 XML parser that extracts MediaFile metadata and presents this information in an application built on the PyQt5 GUI framework:
+A Video Ad Serving Template (VAST) 2.0/3.0 XML parser that extracts **Creative** and **MediaFile** element metadata and presents this information in an application built on the PyQt5 GUI framework:
 
-<img width="1107" alt="Screen Shot 2022-02-15 at 6 07 49 pm" src="https://user-images.githubusercontent.com/84557025/154014268-2b5972f9-cdc7-481b-9e5a-e09e53806e7a.png">
+<img width="1107" alt="Screen Shot 2022-02-16 at 4 03 41 pm" src="https://user-images.githubusercontent.com/84557025/154199660-a992261a-3c47-4074-b5e2-74faf778b30e.png">
 
 *VAST is a Video Ad Serving Template for structuring ad tags that serve ads to video players. Using an XML schema, VAST transfers important metadata about an ad from the ad server to a video player.* Read more [here](https://www.iab.com/guidelines/vast/).
 
@@ -13,6 +13,8 @@ Examining a raw VAST tag response is timely, particlarly when wanting to test th
 ## How it works
 
 Parses the VAST XML tree for the **MediaFile** element and populates the application table with both the **MediaFile** content/file and attributes/values.
+
+Also populates application fields with **Creative** element's ID and AdID attribute values (if present), as well as highest and lowest bitrate values.
 
 If there is no MediaFile element then the table does not populate.
 
@@ -38,9 +40,6 @@ Execute script:
 ```python
 $ python3 vast_xml_parser.py
 ```
-## Planned features
-
-This is still a work in progress. A VAST tag can return different responses/MediaFiles and, other than examining the MediaFiles themselves, the only way to know is to look at the Creative element ID attribute (if present) and I plan on capturing/presenting this Creative ID in a future iteration of the application.
 
 ## License
 
