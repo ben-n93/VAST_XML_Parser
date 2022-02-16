@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt
 
 
 class MainWindow(QtWidgets.QWidget):
-    """ Main window of VAST XML Parser. """
+    """Main window of VAST XML Parser."""
     def __init__(self):
         super().__init__()
         self.setWindowTitle('VAST XML Parser')
@@ -60,11 +60,12 @@ class MainWindow(QtWidgets.QWidget):
         self.layout.addWidget(self.button_box, 0, 1)
         self.layout.addWidget(self.data_box, 2, 0, 1, 0)
         self.layout.addWidget(self.table, 3, 0, 1, 0)
+        # Signals/slots.
         self.process_button.clicked.connect(self.table_population)
         self.open_tag_button.clicked.connect(self.open_browser)
 
     def table_population(self):
-        """ Populates main window table. """
+        """Populate the main window table."""
         media_file_dictionary = {}
         bit_rate_list = []
         attribute_list = []
@@ -95,7 +96,7 @@ class MainWindow(QtWidgets.QWidget):
         row_count = 0
         row_height = 0
 
-        # Creates a list of attribute names
+        # Creates a list of attribute names.
         for dictionary in media_file_dictionary.values():
             for attribute_value in dictionary.keys():
                 attribute_list.append(attribute_value)
@@ -146,7 +147,7 @@ class MainWindow(QtWidgets.QWidget):
                     self.highest_br_field.setText(str(highest_bit_rate))
                     self.lowest_br_field.setText(str(lowest_bit_rate))
 
-        # Inserts Creative and AdID into application
+        # Inserts Creative and AdID into application.
         for key, item in creative_ad_id.items():
             if key == 'id':
                 self.creative_id_field.setText(str(item))
@@ -161,7 +162,7 @@ class MainWindow(QtWidgets.QWidget):
             row_height += 1
 
     def open_browser(self):
-        """ Opens VAST tag in default browswer. """
+        """Open VAST tag in default browswer."""
         URL = self.input_field.toPlainText()
         webbrowser.open(URL)
 
