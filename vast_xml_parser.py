@@ -90,7 +90,7 @@ class MainWindow(QtWidgets.QWidget):
             pass
 
         # Sets table row count based on number of MediaFiles.
-        dict_count = len(media_file_dictionary.keys())
+        dict_count = len(media_file_dictionary)
         self.table.setRowCount(dict_count)
 
         row_count = 0
@@ -98,7 +98,7 @@ class MainWindow(QtWidgets.QWidget):
 
         # Creates a list of attribute names.
         for dictionary in media_file_dictionary.values():
-            for attribute_value in dictionary.keys():
+            for attribute_value in dictionary:
                 attribute_list.append(attribute_value)
 
         # Creates unique list of attribute names and sets column headers
