@@ -3,7 +3,7 @@
 Extended Summary
 ----------------
 
-This application parses a VAST tag (essentially a XML schema) 
+This application parses a VAST tag (essentially a XML schema)
 and extracts metadata.
 
 While there is multiple elements in a VAST tag, this application only
@@ -17,8 +17,6 @@ import webbrowser
 
 import requests
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
-
 
 class MainWindow(QtWidgets.QWidget):
     """Main window of VAST XML Parser."""
