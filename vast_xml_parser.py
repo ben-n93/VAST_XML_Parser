@@ -1,3 +1,17 @@
+"""An application that extracts VAST tag MediaFiles metadata.
+
+Extended Summary
+----------------
+
+This application parses a VAST tag (essentially a XML schema) 
+and extracts metadata.
+
+While there is multiple elements in a VAST tag, this application only
+extracts the MediaFiles elements' attributes and values and (if present)
+the Creative elements' id and sequence values.
+
+"""
+
 import xml.etree.ElementTree as ET
 import webbrowser
 
@@ -8,30 +22,31 @@ from PyQt5.QtCore import Qt
 
 class MainWindow(QtWidgets.QWidget):
     """Main window of VAST XML Parser."""
+
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('VAST XML Parser')
+        self.setWindowTitle("VAST XML Parser")
         self.layout = QtWidgets.QGridLayout()
         self.setLayout(self.layout)
         self.setMinimumWidth(995)
         self.setMinimumHeight(400)
         self.input_field = QtWidgets.QPlainTextEdit()
         self.input_field.setMaximumSize(1000, 80)
-        self.process_button = QtWidgets.QPushButton('Process tag')
-        self.open_tag_button = QtWidgets.QPushButton('Open tag in browser')
+        self.process_button = QtWidgets.QPushButton("Process tag")
+        self.open_tag_button = QtWidgets.QPushButton("Open tag in browser")
         self.table = QtWidgets.QTableWidget(0, 0)
-        self.header_one = QtWidgets.QTableWidgetItem('MediaFile:')
+        self.header_one = QtWidgets.QTableWidgetItem("MediaFile:")
         self.table.setHorizontalHeaderItem(0, self.header_one)
         # Data widgets
-        self.creative_id_label = QtWidgets.QLabel('Creative ID:')
+        self.creative_id_label = QtWidgets.QLabel("Creative ID:")
         self.creative_id_field = QtWidgets.QLineEdit()
-        self.ad_id_label = QtWidgets.QLabel('AdID:')
+        self.ad_id_label = QtWidgets.QLabel("AdID:")
         self.ad_id_field = QtWidgets.QLineEdit()
-        self.sequence_label = QtWidgets.QLabel('Sequence:')
+        self.sequence_label = QtWidgets.QLabel("Sequence:")
         self.sequence_field = QtWidgets.QLineEdit()
-        self.highest_br_label = QtWidgets.QLabel('Highest bitrate:')
+        self.highest_br_label = QtWidgets.QLabel("Highest bitrate:")
         self.highest_br_field = QtWidgets.QLineEdit()
-        self.lowest_br_label = QtWidgets.QLabel('Lowest bitrate:')
+        self.lowest_br_label = QtWidgets.QLabel("Lowest bitrate:")
         self.lowest_br_field = QtWidgets.QLineEdit()
         # Button group box.
         self.button_box = QtWidgets.QGroupBox()
@@ -65,7 +80,19 @@ class MainWindow(QtWidgets.QWidget):
         self.open_tag_button.clicked.connect(self.open_browser)
 
     def table_population(self):
-        """Populate the main window table."""
+        """Populate the main window table.
+        
+        Raises
+        ------
+        requests.exceptions.RequestException
+            If no tag or an empty string is provided and the Process Tag
+            button is pressed.
+
+        xml.etree.ElementTree.ParseError
+            If a non-XML URL is provided and the Process Tag button pressed.
+
+        """
+
         media_file_dictionary = {}
         bit_rate_list = []
         attribute_list = []
@@ -82,16 +109,19 @@ class MainWindow(QtWidgets.QWidget):
         try:
             response = requests.get(URL)
             tree = ET.fromstring(response.content)
-            for child in tree.iter('MediaFile'):
+            for child in tree.iter("MediaFile"):
                 media_file_dictionary[child.text] = child.attrib
-            for child in tree.iter('Creative'):
+            for child in tree.iter("Creative"):
                 creative_ad_id = child.attrib
         except requests.exceptions.RequestException:
             pass
+        except xml.etree.ElementTree.ParseError:
+            pass
+
 
         # Sets table row count based on number of MediaFiles.
-        dict_count = len(media_file_dictionary)
-        self.table.setRowCount(dict_count)
+        DICT_COUNT = len(media_file_dictionary)
+        self.table.setRowCount(DICT_COUNT)
 
         row_count = 0
         row_height = 0
@@ -127,10 +157,8 @@ class MainWindow(QtWidgets.QWidget):
         for value in media_file_dictionary.values():
             column_count = 1
             for attribute_value in value.values():
-                self.attribute_value_item = QtWidgets.QTableWidgetItem(
-                    attribute_value)
-                self.table.setItem(row_count, column_count,
-                                   self.attribute_value_item)
+                self.attribute_value_item = QtWidgets.QTableWidgetItem(attribute_value)
+                self.table.setItem(row_count, column_count, self.attribute_value_item)
                 column_count += 1
             row_count += 1
             column_count = 1
@@ -138,7 +166,7 @@ class MainWindow(QtWidgets.QWidget):
         # Finds highest and lowest bitrate in tag.
         for value in media_file_dictionary.values():
             for key, item in value.items():
-                if key == 'bitrate':
+                if key == "bitrate":
                     bitrate_item = item
                     bitrate_item = int(bitrate_item)
                     bit_rate_list.append(bitrate_item)
@@ -149,11 +177,11 @@ class MainWindow(QtWidgets.QWidget):
 
         # Inserts Creative and AdID into application.
         for key, item in creative_ad_id.items():
-            if key == 'id':
+            if key == "id":
                 self.creative_id_field.setText(str(item))
-            if key == 'AdID':
+            if key == "AdID":
                 self.ad_id_field.setText(str(item))
-            if key == 'sequence':
+            if key == "sequence":
                 self.sequence_field.setText(str(item))
 
         # Sets row height of MediaFile column.
@@ -169,7 +197,7 @@ class MainWindow(QtWidgets.QWidget):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-    app.setApplicationDisplayName('VAST XML Parser')
+    app.setApplicationDisplayName("VAST XML Parser")
     main_window = MainWindow()
     main_window.show()
     app.exec()
