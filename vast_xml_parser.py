@@ -1,8 +1,5 @@
 """An application that extracts VAST tag MediaFiles metadata.
 
-Extended Summary
-----------------
-
 This application parses a VAST tag (essentially a XML schema)
 and extracts metadata.
 
