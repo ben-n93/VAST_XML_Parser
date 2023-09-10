@@ -36,7 +36,7 @@ $ cd VAST_XML_Parser
 $ pip3 install -r requirements.txt
 ```
 
-Execute script:
+Launch program:
 ```python
 $ python3 vast_xml_parser.py
 ```
